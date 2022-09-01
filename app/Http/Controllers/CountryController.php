@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Continent;
 use App\Models\Country;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
@@ -26,11 +28,23 @@ class CountryController extends Controller
                 'nullable',
                 Rule::in(['ASC', 'DESC'])
             ],
+            'continent' => [
+                'nullable',
+                Rule::in(Continent::all()->pluck('code')->toArray())
+            ],
         ]);
 
-        return Country::orderBy(
+        $countries = Country::orderBy(
             $request->get('orderBy', 'display_order'),
             $request->get('order', 'ASC')
-        )->paginate(10);
+        );
+
+        if ($request->get('continent')) {
+            $countries->whereHas('continent', function (Builder $query) use ($request) {
+                $query->where('code', $request->get('continent'));
+            });
+        }
+
+        return $countries->paginate(10);
     }
 }

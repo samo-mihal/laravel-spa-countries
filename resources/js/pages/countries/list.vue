@@ -1,9 +1,23 @@
 <template>
   <div>
     <h1>List of countries</h1>
-    <router-link class="btn btn-primary" :to="{name: 'countries.detail', params: { country: 'new' }}">
-      New
-    </router-link>
+    <div class="row">
+      <div class="col">
+        <router-link class="btn btn-primary" :to="{name: 'countries.detail', params: { country: 'new' }}">
+          New
+        </router-link>
+      </div>
+      <div class="col">
+        <select v-model="continent" class="form-select" @change="getCountries()">
+          <option value="" selected>
+            Filter by continent
+          </option>
+          <option v-for="continentItem in continents" :key="continentItem.code" :value="continentItem.code">
+            {{ continentItem.name }}
+          </option>
+        </select>
+      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -51,7 +65,9 @@ export default {
   },
 
   data: () => ({
+    continents: [],
     countries: [],
+    continent: '',
     order: 'ASC',
     orderBy: 'display_order',
     fields: [
@@ -91,15 +107,22 @@ export default {
   }),
 
   mounted () {
+    this.getContinents()
     this.getCountries()
   },
 
   methods: {
+    getContinents () {
+      axios.get('/api/continents').then(res => {
+        this.continents = res.data
+      })
+    },
     getCountries (page = 1) {
       const searchParams = new URLSearchParams()
       searchParams.set('page', String(page))
       searchParams.set('orderBy', this.orderBy)
       searchParams.set('order', this.order)
+      searchParams.set('continent', this.continent)
 
       axios.get('/api/countries?' + searchParams.toString()).then(res => {
         this.countries = res.data

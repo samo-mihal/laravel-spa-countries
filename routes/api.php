@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('countries', [CountryController::class, 'index']);
+Route::get('continents', [ContinentController::class, 'index']);
