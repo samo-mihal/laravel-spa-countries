@@ -58,8 +58,6 @@ export default {
   components: {
     pagination
   },
-  layout: 'basic',
-
   metaInfo () {
     return { title: 'List of countries' }
   },
