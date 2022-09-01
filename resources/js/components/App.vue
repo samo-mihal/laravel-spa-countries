@@ -35,14 +35,6 @@ export default {
     defaultLayout: 'default'
   }),
 
-  metaInfo () {
-    const { appName } = window.config
-
-    return {
-      title: appName,
-      titleTemplate: `%s · ${appName}`
-    }
-  },
 
   mounted () {
     this.$loading = this.$refs.loading
