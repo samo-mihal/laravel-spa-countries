@@ -35,7 +35,6 @@ export default {
     defaultLayout: 'default'
   }),
 
-
   mounted () {
     this.$loading = this.$refs.loading
   },

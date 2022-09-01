@@ -1,8 +1,7 @@
 import Vue from 'vue'
+import 'bootstrap'
 import router from '~/router'
 import App from '~/components/App'
-
-import '~/plugins'
 import '~/components'
 
 /* eslint-disable no-new */
