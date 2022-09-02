@@ -15,5 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/** Country routes */
 Route::get('countries', [CountryController::class, 'index']);
+Route::post('countries/{country?}', [CountryController::class, 'updateOrCreate']);
+Route::get('countries/{country}', [CountryController::class, 'show']);
+
+/** Continent routes */
 Route::get('continents', [ContinentController::class, 'index']);
+

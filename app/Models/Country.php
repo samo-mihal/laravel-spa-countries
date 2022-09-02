@@ -11,6 +11,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Country extends Model
 {
     /**
+     * @var string
+     */
+    protected $primaryKey = 'country_id';
+
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'full_name',
+        'code',
+        'number',
+        'iso3',
+        'display_order',
+        'continent_code'
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function continent(): BelongsTo

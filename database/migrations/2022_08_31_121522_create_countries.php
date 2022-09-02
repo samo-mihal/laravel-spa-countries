@@ -15,7 +15,7 @@ class CreateCountries extends Migration
     public function up()
     {
         Schema::create('countries', function (Blueprint $table) {
-            $table->integer('country_id')->primary();
+            $table->integer('country_id')->autoIncrement();
             $table->char('code', 2)->comment('Two-letter country code (ISO 3166-1 alpha-2)')->unique('idx_code');
             $table->string('name', 64)->comment('English country name');
             $table->string('full_name', 128)->comment('Full English country name');

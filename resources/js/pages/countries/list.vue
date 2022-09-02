@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>List of countries</h1>
+    <h1>{{ name }}</h1>
     <div class="row">
       <div class="col">
         <router-link class="btn btn-primary" :to="{name: 'countries.detail', params: { country: 'new' }}">
@@ -8,14 +8,9 @@
         </router-link>
       </div>
       <div class="col">
-        <select v-model="continent" class="form-select" @change="getCountries()">
-          <option value="" selected>
-            Filter by continent
-          </option>
-          <option v-for="continentItem in continents" :key="continentItem.code" :value="continentItem.code">
-            {{ continentItem.name }}
-          </option>
-        </select>
+        <ContinentsSelect class="form-select" first-item-title="Filter by continent"
+                          @continent-change="(newContinent) => {continent = newContinent; getCountries()}"
+        />
       </div>
     </div>
     <table class="table">
@@ -53,17 +48,19 @@
 <script>
 import axios from 'axios'
 import pagination from 'laravel-vue-pagination'
+import ContinentsSelect from '../../components/Fields/ContinentsSelect'
 
 export default {
   components: {
-    pagination
+    pagination,
+    ContinentsSelect
   },
   metaInfo () {
-    return { title: 'List of countries' }
+    return { title: this.name }
   },
 
   data: () => ({
-    continents: [],
+    name: 'List of countries',
     countries: [],
     continent: '',
     order: 'ASC',
@@ -105,16 +102,10 @@ export default {
   }),
 
   mounted () {
-    this.getContinents()
     this.getCountries()
   },
 
   methods: {
-    getContinents () {
-      axios.get('/api/continents').then(res => {
-        this.continents = res.data
-      })
-    },
     getCountries (page = 1) {
       const searchParams = new URLSearchParams()
       searchParams.set('page', String(page))
